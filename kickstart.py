@@ -8,7 +8,7 @@ from string import Template
 
 LISTEN_ADDR = '0.0.0.0'
 LISTEN_PORT = 8000
-KICKSTART_FILE = 'workstation.ks'
+KICKSTART_FILE = 'fedora-kde.ks'
 
 class KickstartHandler(http.server.SimpleHTTPRequestHandler):
   def send_head(self):
