@@ -1,4 +1,4 @@
-text
+graphical
 lang en_US.UTF-8
 keyboard us
 timezone US/Central
@@ -12,12 +12,27 @@ reboot
 bootloader --timeout=1
 
 zerombr
-clearpart --all --initlabel --disklabel=msdos
+clearpart --all --initlabel
+
+part /boot/efi --size=513 --fstype="efi" --ondisk=sda --fsoptions="umask=0077"
+part btrfs.01 --fstype="btrfs" --ondisk=sda --size=30000
+part swap --fstype="swap" --ondisk=sda --grow
+btrfs / btrfs.01
 
 # make sure that initial-setup runs and lets us do all the configuration bits
 firstboot --enable
 
 # Include the appropriate repo definitions
+url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-41&arch=x86_64"
+repo --name=copr:copr.fedorainfracloud.org:zeno:scrcpy --baseurl=https://download.copr.fedorainfracloud.org/results/zeno/scrcpy/fedora-41-x86_64 --install
+repo --name=fedora-cisco-openh264 --metalink="https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-41&arch=x86_64"
+repo --name=fedora-updates --metalink="https://mirrors.fedoraproject.org/metalink?repo=updates-released-f41&arch=x86_64"
+repo --name=google-chrome --baseurl="https://dl.google.com/linux/chrome/rpm/stable/x86_64" --install
+repo --name=MEGAsync --baseurl=https://mega.nz/linux/repo/Fedora_41/ --install
+repo --name=rpmfusion-free --metalink="https://mirrors.rpmfusion.org/metalink?repo=free-fedora-41&arch=x86_64" --install
+repo --name=rpmfusion-free-updates --metalink="https://mirrors.rpmfusion.org/metalink?repo=free-fedora-updates-released-41&arch=x86_64" --install
+repo --name=rpmfusion-nonfree --metalink="https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-41&arch=x86_64" --install
+repo --name=rpmfusion-nonfree-updates --metalink="https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-updates-released-41&arch=x86_64" --install
 
 # For non-master branches the following should be uncommented
 
@@ -55,48 +70,50 @@ rm -f /var/lib/rpm/__db*
 systemctl set-default graphical.target
 
 
+
 echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]\nHaltCommand=\nRebootCommand=\n\n[Theme]\nCurrent=01-breeze-fedora\n\n[Users]\nMaximumUid=60000\nMinimumUid=1000\n\n" > /etc/sddm.conf.d/kde_settings.conf
 
 #echo -e "/dev/disk/by-uuid/01DAA737153362E0 /mnt/sdb1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n/dev/disk/by-uuid/01D74E861C2A08E0 /mnt/sdc1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n" >> /etc/fstab
 
-dnf copr enable zeno/scrcpy && dnf install scrcpy
 %end
 
 
 %packages
 # install env-group to resolve RhBug:1891500
-@^kde-desktop-environment
+@^kde-desktop-environment --optional
+-@input-methods
+-@desktop-accessibility
+-@dial-up
+-@guest-desktop-agents
+-@hardware-support
+
+-@3d-printing
+-@cloud-management
+-@kde-apps
+krdc
+okular
+-@kde-education
+-@kde-media
+gwenview
+-@kde-pim
+
+
 kernel
 rEFInd
 # remove this in %post
 dracut-config-generic
--dracut-config-rescue
 
 # make sure all the locales are available for inital-setup and anaconda to work
 glibc-all-langpacks
-@firefox
 android-tools
 plasma-workspace-x11
 thunderbird
 gnome-disk-utility
-@kde-apps
--neochat
--kmouth
 alsa-firmware
-@kde-media
--ktnef
--korganizer
--kmail
--pim-data-exporter-libs
--pim-data-exporter
-
+@vlc
 # Ensure we have Anaconda initial setup using kwin
 @kde-spin-initial-setup
 @libreoffice
-# add libreoffice-draw and libreoffice-math (pagureio:fedora-kde/SIG#103)
-libreoffice-draw
-libreoffice-math
-glibc-all-langpacks
 dnfdragora
 fedora-release-kde
 
@@ -123,22 +140,9 @@ kde-l10n
 fuse
 mediawriter
 
-### space issues
--ktorrent			# kget has also basic torrent features (~3 megs)
--digikam			# digikam has duplicate functionality with gwenview (~28 megs)
--kipi-plugins			# ~8 megs + drags in Marble
--krusader			# ~4 megs
--k3b				# ~15 megs
-
 ## avoid serious bugs by omitting broken stuff
 
 %end
-
-
-part /boot/efi --size=513 --fstype="efi" --ondisk=sda --fsoptions="umask=0077"
-part btrfs.01 --fstype="btrfs" --ondisk=sda --size=446000
-part swap --fstype="swap" --ondisk=sda --grow
-btrfs / btrfs.01
 
 # Create User Account
 user --name=garrett --password=a --plaintext --groups=wheel
