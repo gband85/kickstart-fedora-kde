@@ -36,10 +36,7 @@ repo --name=rpmfusion-nonfree-updates --metalink="https://mirrors.rpmfusion.org/
 
 # For non-master branches the following should be uncommented
 
-
 ignoredisk --only-use=sda
-
-
 
 %post
 
