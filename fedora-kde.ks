@@ -85,7 +85,6 @@ echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]
 -@input-methods
 
 -@kde-apps
--@kde-education
 -@kde-media
 -@kde-pim
 
@@ -112,11 +111,8 @@ alsa-firmware
 @vlc
 # Ensure we have Anaconda initial setup using kwin
 @kde-spin-initial-setup
-@libreoffice
 dnfdragora
 fedora-release-kde
-
--@admin-tools
 
 # drop tracker stuff pulled in by gtk3 (pagureio:fedora-kde/SIG#124)
 -tracker-miners
