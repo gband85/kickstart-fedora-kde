@@ -77,22 +77,24 @@ echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]
 
 %packages
 # install env-group to resolve RhBug:1891500
-@^kde-desktop-environment --optional
--@input-methods
+@^kde-desktop-environment
 -@desktop-accessibility
 -@dial-up
 -@guest-desktop-agents
 -@hardware-support
+-@input-methods
 
--@3d-printing
--@cloud-management
 -@kde-apps
-krdc
-okular
 -@kde-education
 -@kde-media
-gwenview
 -@kde-pim
+
+krdc
+okular
+
+
+gwenview
+
 
 
 kernel
