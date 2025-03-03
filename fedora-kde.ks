@@ -72,6 +72,7 @@ echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]
 
 #echo -e "/dev/disk/by-uuid/01DAA737153362E0 /mnt/sdb1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n/dev/disk/by-uuid/01D74E861C2A08E0 /mnt/sdc1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n" >> /etc/fstab
 refind-install
+wget https://talonvoice.com/update/qyO6k0Y0jHOeI94q51eTKV/talon-linux-115-0.4.0-650-ga789.tar.xz 
 %end
 
 
