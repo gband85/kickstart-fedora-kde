@@ -76,6 +76,9 @@ wget -P /home/garrett/Downloads https://talonvoice.com/update/qyO6k0Y0jHOeI94q51
 wget -P /home/garrett/Downloads --content-disposition --trust-server-names https://linphone.org/releases/linux/latest_app
 read filename < <(curl -L  --head https://linphone.org/releases/linux/latest_app 2>/dev/null | grep Location: | tail -n1 | cut -d' ' -f2 | grep -o Linph*)
 chmod +x /home/garrett/Downloads/$filename
+mkdir -p /home/garrett/.megaCmd/
+touch /home/garrett/.megaCmd/.megaignore.default
+git 
 %end
 
 
@@ -112,6 +115,7 @@ alsa-firmware
 @kde-spin-initial-setup
 dnfdragora
 fedora-release-kde
+git
 megacmd
 
 # drop tracker stuff pulled in by gtk3 (pagureio:fedora-kde/SIG#124)
