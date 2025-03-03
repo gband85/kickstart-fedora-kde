@@ -71,7 +71,7 @@ systemctl set-default graphical.target
 echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]\nHaltCommand=\nRebootCommand=\n\n[Theme]\nCurrent=01-breeze-fedora\n\n[Users]\nMaximumUid=60000\nMinimumUid=1000\n\n" > /etc/sddm.conf.d/kde_settings.conf
 
 #echo -e "/dev/disk/by-uuid/01DAA737153362E0 /mnt/sdb1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n/dev/disk/by-uuid/01D74E861C2A08E0 /mnt/sdc1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n" >> /etc/fstab
-
+refind-install
 %end
 
 
@@ -90,12 +90,7 @@ echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]
 
 krdc
 okular
-
-
 gwenview
-
-
-
 kernel
 rEFInd
 # remove this in %post
@@ -113,6 +108,7 @@ alsa-firmware
 @kde-spin-initial-setup
 dnfdragora
 fedora-release-kde
+megacmd
 
 # drop tracker stuff pulled in by gtk3 (pagureio:fedora-kde/SIG#124)
 -tracker-miners
