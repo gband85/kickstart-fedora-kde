@@ -102,6 +102,7 @@ git clone https://github.com/gband85/community.git /home/garrett/.talon/user
 -@kde-pim
 
 krdc
+lpf-spotify-client
 okular
 gwenview
 kernel
