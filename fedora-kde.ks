@@ -78,6 +78,7 @@ read filename < <(curl -L  --head https://linphone.org/releases/linux/latest_app
 chmod +x /home/garrett/Downloads/$filename
 mkdir -p /home/garrett/.megaCmd/
 touch /home/garrett/.megaCmd/.megaignore.default
+mkdir -p /home/garrett/.talon/user
 git clone https://github.com/gband85/community.git /home/garrett/.talon/user
 %end
 
