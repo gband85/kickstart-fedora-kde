@@ -73,11 +73,15 @@ echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]
 #echo -e "/dev/disk/by-uuid/01DAA737153362E0 /mnt/sdb1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n/dev/disk/by-uuid/01D74E861C2A08E0 /mnt/sdc1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n" >> /etc/fstab
 
 wget -P /home/garrett/Downloads https://talonvoice.com/update/qyO6k0Y0jHOeI94q51eTKV/talon-linux-115-0.4.0-650-ga789.tar.xz
+tar -xf /home/garrett/Downloads/talon-linux-115-0.4.0-555-g7f5f.tar.xz -C /home/garrett
 wget -P /home/garrett/Downloads --content-disposition --trust-server-names https://linphone.org/releases/linux/latest_app
 read filename < <(curl -L  --head https://linphone.org/releases/linux/latest_app 2>/dev/null | grep Location: | tail -n1 | cut -d' ' -f2 | grep -o Linph*)
 chmod +x /home/garrett/Downloads/$filename
 mkdir -p /home/garrett/.megaCmd/
 touch /home/garrett/.megaCmd/.megaignore.default
+mega-login gband85@mailfence.com iNaoYM8L3Mc-
+mega-get settings_backup/.config /home/garrett
+mega-get settings_backup/.thunderbird /home/garrett
 mkdir -p /home/garrett/.talon/user
 git clone https://github.com/gband85/community.git /home/garrett/.talon/user
 %end
