@@ -110,6 +110,7 @@ okular
 gwenview
 kernel
 rEFInd
+scrcpy
 pcre2.i686
 # remove this in %post
 dracut-config-generic
