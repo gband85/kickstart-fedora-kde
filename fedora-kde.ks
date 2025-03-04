@@ -82,7 +82,9 @@ touch /home/garrett/.megaCmd/.megaignore.default
 mega-login gband85@mailfence.com iNaoYM8L3Mc-
 mega-get settings_backup/.config /home/garrett
 mega-get settings_backup/.thunderbird /home/garrett
-mega-get settings_backup/user-places.xbel /home/garrett/.local/share
+mega-get settings_backup/.local /home/garrett/
+mega-get settings_backup/.android /home/garrett/
+mega-get settings_backup/.jocala /home/garrett/
 mkdir -p /home/garrett/.talon/user
 git clone https://github.com/gband85/community.git /home/garrett/.talon/user
 %end
