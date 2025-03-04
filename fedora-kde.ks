@@ -147,4 +147,4 @@ mediawriter
 %end
 
 # Create User Account
-user --name=garrett --password=a --plaintext --groups=wheel
+user --name=garrett --password=a --plaintext --groups=wheel,pkg-build,dialout,vboxusers,vboxsf,audio,video,render,kvm,libvirt
