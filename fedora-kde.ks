@@ -87,6 +87,7 @@ mega-get settings_backup/.android /home/garrett/
 mega-get settings_backup/.jocala /home/garrett/
 mkdir -p /home/garrett/.talon/user
 git clone https://github.com/gband85/community.git /home/garrett/.talon/user
+chown -R garrett:garrett /home/garrett
 %end
 
 
