@@ -85,7 +85,7 @@ mega-get settings_backup/.thunderbird /home/garrett
 mega-get settings_backup/.local /home/garrett/
 mega-get settings_backup/.android /home/garrett/
 mega-get settings_backup/.jocala /home/garrett/
-mkdir -p /home/garrett/.talon/user
+mega-get settings_backup/.talon /home/garrett
 git clone https://github.com/gband85/community.git /home/garrett/.talon/user/community
 chown -R garrett:garrett /home/garrett
 %end
