@@ -24,7 +24,7 @@ firstboot --enable
 
 # Include the appropriate repo definitions
 #url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-41&arch=x86_64"
-url --baseurl="http://192.168.1.142/repos/fedora/releases/41/Everything/x86_64/os/Packages/"
+url --url="http://192.168.1.142/repos/fedora/releases/41/Everything/x86_64/os/Packages/"
 repo --name=copr:copr.fedorainfracloud.org:zeno:scrcpy --baseurl=https://download.copr.fedorainfracloud.org/results/zeno/scrcpy/fedora-41-x86_64 --install
 repo --name=fedora-cisco-openh264 --metalink="https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-41&arch=x86_64"
 repo --name=fedora-updates --metalink="https://mirrors.fedoraproject.org/metalink?repo=updates-released-f41&arch=x86_64"
