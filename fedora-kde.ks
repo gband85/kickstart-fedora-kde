@@ -1,4 +1,4 @@
-graphical
+text
 lang en_US.UTF-8
 keyboard us
 timezone US/Central
@@ -25,6 +25,7 @@ firstboot --enable
 # Include the appropriate repo definitions
 #url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-41&arch=x86_64"
 url --url="http://192.168.1.142/repos/fedora/releases/41/Everything/x86_64/os/Packages/"
+repo --name=Mullvad-VPN --baseurl=https://repository.mullvad.net/rpm/stable/x86_64 --install
 repo --name=copr:copr.fedorainfracloud.org:zeno:scrcpy --baseurl=https://download.copr.fedorainfracloud.org/results/zeno/scrcpy/fedora-41-x86_64 --install
 repo --name=fedora-cisco-openh264 --metalink="https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-41&arch=x86_64"
 repo --name=fedora-updates --metalink="https://mirrors.fedoraproject.org/metalink?repo=updates-released-f41&arch=x86_64"
@@ -75,7 +76,10 @@ echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]
 
 wget -P /home/garrett/Downloads https://talonvoice.com/update/qyO6k0Y0jHOeI94q51eTKV/talon-linux-115-0.4.0-650-ga789.tar.xz
 tar -xf /home/garrett/Downloads/talon-linux-* -C /home/garrett
+cp /home/garrett/talon/10-talon.rules /etc/udev/rules.d/
 wget -P /home/garrett/Downloads --content-disposition --trust-server-names https://linphone.org/releases/linux/latest_app
+wget -P /home/garrett/Downloads http://jocala.com/downloads/adblink.63.zip
+unzip /home/garrett/Downloads/adblink.63.zip -d /home/garrett/Downloads/
 read filename < <(curl -L  --head https://linphone.org/releases/linux/latest_app 2>/dev/null | grep Location: | tail -n1 | cut -d' ' -f2 | grep -o Linph*)
 chmod +x /home/garrett/Downloads/$filename
 mkdir -p /home/garrett/.megaCmd/
@@ -88,6 +92,8 @@ mega-get settings_backup/.android /home/garrett/
 mega-get settings_backup/.jocala /home/garrett/
 mega-get settings_backup/.talon /home/garrett
 git clone https://github.com/gband85/community.git /home/garrett/.talon/user/community
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+yes | flatpak install app/com.spotify.Client/x86_64/stable
 chown -R garrett:garrett /home/garrett
 %end
 
