@@ -1,0 +1,12 @@
+[Unit]
+Description=My First Boot Script
+ConditionPathExists=!/home/garrett/flatpak-installed
+
+[Service]
+Type=oneshot
+ExecStart=/home/garrett/flatpak-install.sh
+ExecStartPost=/usr/bin/touch /home/garrett/flatpak-installed
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target
