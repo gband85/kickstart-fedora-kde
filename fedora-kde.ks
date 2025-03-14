@@ -5,7 +5,7 @@ timezone US/Central
 selinux --permissive
 firewall --enabled --service=mdns
 services --enabled=sshd,NetworkManager,chronyd
-network --bootproto=dhcp --device=link --activate
+network --bootproto=dhcp --device=link --activate --hostname=x570plus
 rootpw --lock --iscrypted locked
 reboot
 
@@ -21,7 +21,6 @@ btrfs / btrfs.01
 
 # make sure that initial-setup runs and lets us do all the configuration bits
 firstboot --enable
-
 # Include the appropriate repo definitions
 #url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-41&arch=x86_64"
 url --url="http://192.168.1.142/repos/fedora/releases/41/Everything/x86_64/os/Packages/"
@@ -74,13 +73,17 @@ echo -e "[Autologin]\nRelogin=true\nSession=plasmax11\nUser=garrett\n\n[General]
 
 #echo -e "/dev/disk/by-uuid/01DAA737153362E0 /mnt/sdb1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n/dev/disk/by-uuid/01D74E861C2A08E0 /mnt/sdc1 auto nosuid,nodev,nofail,x-gvfs-show 0 0\n" >> /etc/fstab
 
+%end
+
+
+%post --log=/root/ks-customization.log
 wget -P /home/garrett/Downloads https://talonvoice.com/update/qyO6k0Y0jHOeI94q51eTKV/talon-linux-115-0.4.0-650-ga789.tar.xz
 tar -xf /home/garrett/Downloads/talon-linux-* -C /home/garrett
 cp /home/garrett/talon/10-talon.rules /etc/udev/rules.d/
 wget -P /home/garrett/Downloads --content-disposition --trust-server-names https://linphone.org/releases/linux/latest_app
 wget -P /home/garrett/Downloads http://jocala.com/downloads/adblink.63.zip
 unzip /home/garrett/Downloads/adblink.63.zip -d /home/garrett/Downloads/
-read filename < <(curl -L  --head https://linphone.org/releases/linux/latest_app 2>/dev/null | grep Location: | tail -n1 | cut -d' ' -f2 | grep -o Linph*)
+read filename < <(curl -L  --head https://linphone.org/releases/linux/latest_app 2>/dev/null | grep Location: | tail -n1 | cut -d' ' -f2 | grep -o Linphone-.*)
 chmod +x /home/garrett/Downloads/$filename
 mkdir -p /home/garrett/.megaCmd/
 touch /home/garrett/.megaCmd/.megaignore.default
@@ -92,37 +95,35 @@ mega-get settings_backup/.android /home/garrett/
 mega-get settings_backup/.jocala /home/garrett/
 mega-get settings_backup/.talon /home/garrett
 git clone https://github.com/gband85/community.git /home/garrett/.talon/user/community
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-yes | flatpak install app/com.spotify.Client/x86_64/stable
+wget -P /home/garrett http://192.168.1.142/flatpak-install.sh
+chmod +x /home/garrett/flatpak-install.sh
+mkdir -p /home/garrett/.config/systemd/user/default.target.wants
+wget -P /home/garrett/.config/systemd/user http://192.168.1.142/first-boot.service
+ln -s /home/garrett/.config/systemd/user/first-boot.service /home/garrett/.config/systemd/user/default.target.wants/first-boot.service
 chown -R garrett:garrett /home/garrett
 %end
 
-
 %packages
-# install env-group to resolve RhBug:1891500
 @^kde-desktop-environment
 -@desktop-accessibility
 -@dial-up
 -@guest-desktop-agents
 -@hardware-support
 -@input-methods
-
 -@kde-apps
 -@kde-media
 -@kde-pim
-
 krdc
-lpf-spotify-client
+# lpf-spotify-client
 okular
 gwenview
-kernel
+# kernel
 rEFInd
 scrcpy
+libyui-mga-qt
+libyui-qt
 pcre2.i686
-# remove this in %post
 dracut-config-generic
-
-# make sure all the locales are available for inital-setup and anaconda to work
 glibc-all-langpacks
 android-tools
 plasma-workspace-x11
@@ -130,38 +131,21 @@ thunderbird
 gnome-disk-utility
 alsa-firmware
 @vlc
+@firefox
 steam
-# Ensure we have Anaconda initial setup using kwin
 @kde-spin-initial-setup
 dnfdragora
 fedora-release-kde
 git
 megacmd
-
-# drop tracker stuff pulled in by gtk3 (pagureio:fedora-kde/SIG#124)
 -tracker-miners
 -tracker
-
-# Not needed on desktops. See: https://pagure.io/fedora-kde/SIG/issue/566
 -mariadb-server-utils
-
-### The KDE-Desktop
-
-# fedora-specific packages
 plasma-welcome-fedora
-
-### fixes
-
-# minimal localization support - allows installing the kde-l10n-* packages
 kde-l10n
-
-# Additional packages that are not default in kde-* groups, but useful
 fuse
 mediawriter
 
-## avoid serious bugs by omitting broken stuff
-
 %end
 
-# Create User Account
-user --name=garrett --password=a --plaintext --groups=wheel,pkg-build,dialout,vboxusers,vboxsf,audio,video,render,kvm,libvirt
+user --name=garrett --password=a --plaintext --groups=wheel,pkg-build,dialout,vboxusers,vboxsf,audio,video,render,kvm,libvirt,mock,docker
