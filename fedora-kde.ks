@@ -100,6 +100,14 @@ chmod +x /home/garrett/flatpak-install.sh
 mkdir -p /home/garrett/.config/systemd/user/default.target.wants
 wget -P /home/garrett/.config/systemd/user http://192.168.1.142/first-boot.service
 ln -s /home/garrett/.config/systemd/user/first-boot.service /home/garrett/.config/systemd/user/default.target.wants/first-boot.service
+kwriteconfig5 --file ~/.config/kwinrc --group Windows --key FocusStealingPreventionLevel 0
+kwriteconfig5 --file ~/.config/kwinrc --group Effect-overview --key BorderActivate 9
+kwriteconfig5 --file ~/.config/kscreenlockerrc --group Daemon --key AutoLock false
+kwriteconfig5 --file ~/.config/kscreenlockerrc --group Daemon --key LockOnResume false
+kwriteconfig5 --file ~/.config/kscreenlockerrc --group Daemon --key Timeout 0
+kwriteconfig5 --file ~/.config/powerdevilrc    --group AC --group Display --key TurnOffDisplayIdleTimeoutSec 900
+kwriteconfig5 --file ~/.config/powerdevilrc    --group AC --group SuspendAndShutdown --key AutoSuspendIdleTimeoutSec 7200
+
 chown -R garrett:garrett /home/garrett
 %end
 
